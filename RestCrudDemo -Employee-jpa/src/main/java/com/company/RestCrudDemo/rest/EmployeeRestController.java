@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/employees")
 public class EmployeeRestController {
     private EmployeeService employeeService;
     @Autowired
@@ -16,13 +16,13 @@ public class EmployeeRestController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("/employees")
+    @GetMapping
     public List<Employee> findAll()
     {
         return employeeService.findAll();
     }
 
-    @GetMapping("/employees/{employeeId}")
+    @GetMapping("/{employeeId}")
     public Employee findById(@PathVariable int employeeId)
     {
         Employee employee =employeeService.findById(employeeId);
@@ -30,7 +30,7 @@ public class EmployeeRestController {
             throw  new RuntimeException ("Employee id not found "+ employeeId);
         return  employee ;
     }
-    @DeleteMapping("/employees/{employeeId}")
+    @DeleteMapping("/{employeeId}")
     public String delete (@PathVariable int employeeId )
     {
         Employee e =employeeService.findById(employeeId);
@@ -41,7 +41,7 @@ public class EmployeeRestController {
 
         return "Deleted employee id - "+employeeId;
     }
-    @PostMapping("/employees")
+    @PostMapping
     public Employee AddEmployee (@RequestBody Employee e)
     {
         // to force the insert in dao set id =0
@@ -49,7 +49,7 @@ public class EmployeeRestController {
         Employee dbEmployee =employeeService.save(e);
         return dbEmployee;
     }
-    @PutMapping("/employees")
+    @PutMapping
     public Employee updateEmployee(@RequestBody Employee employee)
     {
         return employeeService.save(employee);
